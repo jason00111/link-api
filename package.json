@@ -1,0 +1,29 @@
+{
+  "name": "linq-api",
+  "version": "1.0.0",
+  "description": "HTTP API for Link App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "createdb": "createdb linq && psql linq < database/schema.sql",
+    "seed": "psql linq < database/seed.sql",
+    "reset": "dropdb linq && npm run createdb && npm run seed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jason00111/linq-api.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jason00111/linq-api/issues"
+  },
+  "homepage": "https://github.com/jason00111/linq-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-promise-router": "^2.0.0",
+    "pg-promise": "^7.3.1"
+  }
+}
