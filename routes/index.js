@@ -1,4 +1,4 @@
-const router = require('express').Router()
+const router = require('express-promise-router')()
 const bodyParser = require('body-parser')
 const db = require('../database')
 
@@ -36,6 +36,10 @@ router.post('/:userId/contacts/new', async (req, res) => {
   const result = await db.addLinq(userId, contactId)
 
   res.send({ result: result.rowCount !== 0 })
+})
+
+router.use((err, req, res, next) => {
+  console.log('there was an error:', err)
 })
 
 module.exports = router

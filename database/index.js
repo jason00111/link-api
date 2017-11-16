@@ -6,7 +6,6 @@ const db = pgp({
   database: 'linq'
 })
 
-
 function getContactsByUserId(userId) {
   const query = `
     SELECT contacts.* FROM users
@@ -20,8 +19,8 @@ function getContactsByUserId(userId) {
 async function deleteContactForUser(userId, contactId) {
   const query = `
     DELETE FROM users_contacts
-    WHERE user_id = ${userId}
-    AND contact_id = ${contactId};`
+    WHERE user_id = $(userId)
+    AND contact_id = $(contactId);`
 
   const result = await db.result(query, { userId, contactId })
 
@@ -31,19 +30,19 @@ async function deleteContactForUser(userId, contactId) {
 async function updateUser(userId, updatedValues) {
   const query = `
     UPDATE users
-    SET full_name = ${full_name}, phone = ${phone}, email = ${email}, blurb = ${blurb}
+    SET full_name = $(full_name), phone = $(phone), email = $(email), blurb = $(blurb)
     WHERE id = 1
     RETURNING *;`
 
   const updatedUser = await db.one(query, updatedValues)
 
-  return updateUser
+  return updatedUser
 }
 
 async function addLinq(userId, contactId) {
   const query = `
     INSERT INTO users_contacts (user_id, contact_id)
-    VALUES (${userId}, ${contactId}), (${contactId}, ${userId});`
+    VALUES ($(userId), $(contactId)), ($(contactId), $(userId));`
 
   const result = await db.result(query, { userId, contactId })
 
