@@ -4,11 +4,14 @@
   "description": "HTTP API for Link App",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "export NODE_ENV=testing && mocha",
     "start": "node server.js",
     "createdb": "createdb linq && psql linq < database/schema.sql",
     "seed": "psql linq < database/seed.sql",
-    "reset": "dropdb linq && npm run createdb && npm run seed"
+    "reset": "dropdb linq && npm run createdb && npm run seed",
+    "createdb:test": "createdb linq-test && psql linq-test < database/schema.sql",
+    "seed:test": "psql linq-test < database/seed.sql",
+    "reset:test": "dropdb linq-test && npm run createdb:test && npm run seed:test"
   },
   "repository": {
     "type": "git",
@@ -25,5 +28,10 @@
     "express": "^4.16.2",
     "express-promise-router": "^2.0.0",
     "pg-promise": "^7.3.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "mocha": "^4.0.1"
   }
 }

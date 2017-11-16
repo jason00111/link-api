@@ -1,10 +1,4 @@
-const pgp = require('pg-promise')()
-
-const db = pgp({
-  host: 'localhost',
-  port: 5432,
-  database: 'linq'
-})
+const db = require('./setup')
 
 function getContactsByUserId(userId) {
   const query = `
@@ -31,10 +25,10 @@ async function updateUser(userId, updatedValues) {
   const query = `
     UPDATE users
     SET full_name = $(full_name), phone = $(phone), email = $(email), blurb = $(blurb)
-    WHERE id = 1
+    WHERE id = $(userId)
     RETURNING *;`
 
-  const updatedUser = await db.one(query, updatedValues)
+  const updatedUser = await db.one(query, { userId, ...updatedValues })
 
   return updatedUser
 }
