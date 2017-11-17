@@ -21,31 +21,37 @@ async function deleteContactForUser(userId, contactId) {
   return result.rowCount === 1
 }
 
-async function updateUser(userId, updatedValues) {
+function updateUser(userId, updatedValues) {
   const query = `
     UPDATE users
     SET full_name = $(full_name), phone = $(phone), email = $(email), blurb = $(blurb)
     WHERE id = $(userId)
     RETURNING *;`
 
-  const updatedUser = await db.one(query, { userId, ...updatedValues })
-
-  return updatedUser
+  return db.one(query, { userId, ...updatedValues })
 }
 
-async function addLinq(userId, contactId) {
+function addLinq(userId, contactId) {
   const query = `
     INSERT INTO users_contacts (user_id, contact_id)
     VALUES ($(userId), $(contactId)), ($(contactId), $(userId));`
 
-  const result = await db.result(query, { userId, contactId })
+  return db.result(query, { userId, contactId })
+}
 
-  return result
+function createUser(user) {
+  const query = `
+    INSERT INTO users (full_name, phone, email, blurb)
+    VALUES ($(full_name), $(phone), $(email), $(blurb))
+    RETURNING *`
+
+  return db.one(query, user)
 }
 
 module.exports = {
   getContactsByUserId,
   deleteContactForUser,
   updateUser,
-  addLinq
+  addLinq,
+  createUser
 }

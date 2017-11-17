@@ -4,7 +4,8 @@ const {
   getContactsByUserId,
   deleteContactForUser,
   updateUser,
-  addLinq
+  addLinq,
+  createUser
 } = require('../database')
 
 const seed = require('./helpers')
@@ -53,5 +54,36 @@ describe('updateUser', function () {
     expect(contacts).to.be.an('array')
     expect(contacts).to.have.lengthOf(1)
     expect(contacts[0]).to.have.property('full_name', 'Bobby Tables')
+  })
+})
+
+describe('addLinq', function () {
+  it('creates a connection between two users', async function () {
+
+    const linqAdded = await addLinq(1, 3)
+    const contacts = await getContactsByUserId(1)
+
+    expect(contacts).to.be.an('array')
+    expect(contacts).to.have.lengthOf(2)
+    expect(contacts[0]).to.have.property('full_name', 'Ariadne Dionysos')
+    expect(contacts[1]).to.have.property('full_name', 'Aikaterini Spiridon')
+  })
+})
+
+describe('createUser', function () {
+  it('creates new users', async function () {
+
+    const platon = {
+      full_name: 'Platon Haris',
+      phone: '456-567-0000',
+      email: 'platon@gmail.com',
+      blurb: 'Gender: Masculine\nType: Adult\nLocation: Cyprus\nLanguage: Greek'
+    }
+
+    const createdUser = await createUser(platon)
+
+    expect(createdUser).to.be.an('object')
+    expect(createdUser).to.have.property('full_name', 'Platon Haris')
+    expect(createdUser).to.have.property('id', 4)
   })
 })

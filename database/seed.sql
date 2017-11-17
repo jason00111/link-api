@@ -18,6 +18,16 @@ Type: Elderly Adult
 Nationality: Greek
 Location: Greece
 Language: Greek'
+),
+(
+  'Aikaterini Spiridon',
+  '123-456-7890',
+  'aikaterini@gmail.com',
+  'Gender: Feminine
+Type: Child
+Nationality: Greek
+Location: Greece
+Language: Greek'
 );
 
 INSERT INTO users_contacts (user_id, contact_id)
