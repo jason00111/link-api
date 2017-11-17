@@ -5,7 +5,8 @@ const {
   deleteContactForUser,
   updateUser,
   addLinq,
-  createUser
+  createUser,
+  getUser
 } = require('../database')
 
 const seed = require('./helpers')
@@ -85,5 +86,15 @@ describe('createUser', function () {
     expect(createdUser).to.be.an('object')
     expect(createdUser).to.have.property('full_name', 'Platon Haris')
     expect(createdUser).to.have.property('id', 4)
+  })
+})
+
+describe('getUser', function () {
+  it('returns a user with the given id', async function () {
+    const user = await getUser(1)
+
+    expect(user).to.be.an('object')
+    expect(user).to.have.property('full_name', 'Zeus Alkyone')
+    expect(user).to.have.property('id', 1)
   })
 })
